@@ -144,4 +144,4 @@ php artisan down --allow=::1
 gs -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE=combine.pdf -dBATCH 1.pdf 2.pdf
 gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dFirstPage=1 -dLastPage=2 -sOutputFile=OUTPUT.pdf ORIGINAL.pdf
 
-sudo mount  -t cifs -o username=fubonprod,password=F2e1j3dNf2dX4sKn8W6Fe,vers=1.0,_netdev //192.168.0.233/bshprod_hbs_report /var/www/html/bshprod_hbs_report
+sudo mount  -t cifs -o username=uicprod,password="nej*374DJ)93*#jBue",vers=1.0,_netdev //192.168.0.205/uicprod_hbs_report /var/www/html/uicprod_hbs_report
