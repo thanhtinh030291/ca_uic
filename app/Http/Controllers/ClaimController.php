@@ -2892,7 +2892,7 @@ class ClaimController extends Controller
     {
         $PD_PLAN_OVERRIDE_DIAGNOSIS = $HBS_CL_CLAIM->HBS_CL_LINE[0]->MR_POLICY_PLAN->PD_PLAN->PD_PLAN_OVERRIDE_DIAGNOSIS;
         $lang_waiting_time = $lang == 'en' ? 'Waiting Time' : 'Thời Gian Chờ';
-        
+        $diag_desc = $lang == 'en' ? 'diag_desc' : 'diag_desc_vn';
         $html = '<table style=" border: 1px solid #1e91e3; border-collapse: collapse;width: 100%">
                     <thead style="background: aliceblue">
                         <tr>
