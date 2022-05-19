@@ -2904,10 +2904,12 @@ class ClaimController extends Controller
                     <tbody>';
         
         foreach ($PD_PLAN_OVERRIDE_DIAGNOSIS as $key => $value) {
-            $total = 0;
-            $total += $value->wait_day ? trim($value->wait_day) : 0;
-            $total += $value->wait_month ? trim($value->wait_month)*30 : 0;
-            $total += $value->wait_year ? trim($value->wait_year)*365 : 0;
+            $total = "";
+            $total .= $value->wait_year ? trim($value->wait_year) . " năm " : "";
+            $total .= $value->wait_month ? trim($value->wait_month) . " tháng ": "";
+            $total .= $value->wait_day ? trim($value->wait_day) . " ngày ": "";
+           
+            
             $diag_desc_vn = explode("(",data_get($value->RT_DIAGNOSIS, $diag_desc, "Null"))[0];
             $html .=    '<tr>
                             <td style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt; text-align: left; padding-left: 40px;">'.$diag_desc_vn.'</td>
