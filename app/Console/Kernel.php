@@ -38,8 +38,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:GetHBS')->everyMinute();
         //$schedule->command('command:GetRenewPayment')->everyMinute();
         //$schedule->command('command:UpdateFile')->everyMinute();
-        $schedule->command('command:CheckFinishAndPay')->everyFiveMinutes();
-        $schedule->command('command:UploadMfile')->dailyAt('23:00');
+        //$schedule->command('command:CheckFinishAndPay')->everyFiveMinutes();
+        $schedule->command('command:UploadMfile')->dailyAt('22:45');
     }
 
     /**
