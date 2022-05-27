@@ -1608,7 +1608,7 @@ class ClaimController extends Controller
         $sum_pre_amt = 0;
         $sum_app_amt = 0;
         $HbsBenhead = \App\HBS_PD_BEN_HEAD::whereNotNull('BEN_HEAD')->with('PD_BEN_HEAD_LANG')->get();
-        
+
         $col_benefit = $lang == 'en' ? 'Benefits' : 'Quyền lợi bảo hiểm';
         $col_submitted_amount = $lang == 'en' ? 'Submitted amount<br>(in VND)' : 'Số tiền yêu cầu bồi thường <br> (bằng VNĐ)';
         $col_paid_amount = $lang == 'en' ? 'Paid amount<br>(Based on validity documents)' : 'Số tiền bồi thường<br>(Căn cứ trên chứng từ hợp lệ)';
@@ -1624,7 +1624,7 @@ class ClaimController extends Controller
                 <table style=" border: 1px solid #1e91e3; border-collapse: collapse;width: 100%">
                     <thead style="background: aliceblue">
                         <tr>
-                            <th style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt" rowspan="2">'.$col_benefit.'</th>
+                            <th style="width: 30%;border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt" rowspan="2">'.$col_benefit.'</th>
                             <th style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$col_limit.'</th>
                             <th style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$col_submitted_amount.'</th>
                             <th style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$col_paid_amount.'</th>
@@ -1653,15 +1653,9 @@ class ClaimController extends Controller
        
         $html .= '<tbody>';
         foreach ($data_ben_type as $incur => $GroupDate) {
-            $html .= '<tr>
-                            
-                            <td colspan="4"  style="text-align: center; border: 1px solid #1e91e3; font-family: arial, helvetica, sans-serif ; font-size: 11pt;color: #1e91e3; font-weight:bold;">'.$incur.'</td>
-                            
-                        </tr>';
             foreach ($GroupDate as $bentype => $GroupClaimLine) {
                 $html .= '<tr>
-                            <td style="border: 1px solid #1e91e3; font-weight:bold; font-family: arial, helvetica, sans-serif ; font-size: 11pt ; color: #1e91e3;">'. data_get($list_bentype->where("scma_oid", $bentype)->first() , $code_desc) .'</td>
-                            <td colspan="3" style="border: 1px solid #1e91e3; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
+                            <td colspan="4" style="border: 1px solid #1e91e3; font-weight:bold; font-family: arial, helvetica, sans-serif ; font-size: 11pt ; color: #1e91e3;">'. data_get($list_bentype->where("scma_oid", $bentype)->first() , $code_desc) . " ($incur)".'</td>
                         </tr>';
                 foreach ($GroupClaimLine as $keyIP => $value) {
                         $range_pay = "";
