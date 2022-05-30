@@ -471,7 +471,7 @@ function IOPDiag($HBS_CL_CLAIM, $claim_id , $lang = null){
     
     foreach ($IOPDiag as $key => $value) {
         if($lang == null || $lang == 'vn'){
-            $IOPDiag_f[] = '<span style="font-family: arial, helvetica, sans-serif; font-size: 10pt;" Ngày điều trị: '.$value->unique('date')->implode('date' , "; " )."<br>".
+            $IOPDiag_f[] = '<span style="font-family: arial, helvetica, sans-serif; font-size: 10pt;"> Ngày điều trị: '.$value->unique('date')->implode('date' , "; " )."<br>".
             "Chẩn đoán: " . $value->unique('diagnosis')->implode('diagnosis' , ", " ) ." <br>".
             'Nơi điều trị: '.$value[0]['place']." <br></span>";
         }else{
@@ -480,6 +480,7 @@ function IOPDiag($HBS_CL_CLAIM, $claim_id , $lang = null){
             'Place of treatment: '.$value[0]['place']." <br></span>";
         }
     }
+    
     $IOPDiag = implode('<br>',  $IOPDiag_f);
     return $IOPDiag;
 }
