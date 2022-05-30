@@ -426,31 +426,31 @@ function payMethod($HBS_CL_CLAIM, $lang = null){
     $beneficiary_name = $lang == "en" ? 'Beneficiary name: ' : 'Tên người thụ hưởng: ';
     $info_bank = $lang == "en" ? 'Name and Address of the Bank: ' : 'Tên và địa chỉ Ngân hàng: ';
 
-    $payMethod =    '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 11pt;">'.$pay_lang.'</span></p>
+    $payMethod =    '<p><span style="font-family: arial, helvetica, sans-serif; font-size: 10pt;">'.$pay_lang.'</span></p>
                     <table style=" border: 1px solid black; border-collapse: collapse;">
                         <tbody>
                         <tr>
-                            <td style="border: 1px solid black; width: 350px; font-family: arial, helvetica, sans-serif ; font-size: 11pt">
+                            <td style="border: 1px solid black; width: 350px; font-family: arial, helvetica, sans-serif ; font-size: 10pt">
                                 <p>'.$beneficiary_name.$name_reciever.'</p>
                             </td>
-                            <td style="border: 1px solid black; width: 350px; font-family: arial, helvetica, sans-serif ; font-size: 11pt">
+                            <td style="border: 1px solid black; width: 350px; font-family: arial, helvetica, sans-serif ; font-size: 10pt">
                                 <p>'.$info_reciever.'</p>
                             </td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt" colspan="2">
+                            <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 10pt" colspan="2">
                                 <p>'.$info_bank.$banking.'</p>
                             </td>
                         </tr>
                         <tr>
-                            <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt" colspan="2">
+                            <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 10pt" colspan="2">
                                 <p>'.$notify.'</p>
                             </td>
                         </tr>
                     </tbody>
                     </table>';
     if($not_show_table){
-        $payMethod = '<span style=" font-family: arial, helvetica, sans-serif ; font-size: 11pt;">'.$pay_lang.'<strong>'.$notify.'</strong></span>';
+        $payMethod = '<span style=" font-family: arial, helvetica, sans-serif ; font-size: 10pt;">'.$pay_lang.'<strong>'.$notify.'</strong></span>';
     }
     
     return $payMethod;
@@ -471,13 +471,13 @@ function IOPDiag($HBS_CL_CLAIM, $claim_id , $lang = null){
     
     foreach ($IOPDiag as $key => $value) {
         if($lang == null || $lang == 'vn'){
-            $IOPDiag_f[] = "Ngày điều trị: ".$value->unique('date')->implode('date' , "; " )."<br>".
+            $IOPDiag_f[] = '<span style="font-family: arial, helvetica, sans-serif; font-size: 10pt;" Ngày điều trị: '.$value->unique('date')->implode('date' , "; " )."<br>".
             "Chẩn đoán: " . $value->unique('diagnosis')->implode('diagnosis' , ", " ) ." <br>".
-            'Nơi điều trị: '.$value[0]['place']." <br>";
+            'Nơi điều trị: '.$value[0]['place']." <br></span>";
         }else{
-            $IOPDiag_f[] = "Treatment period: ".$value->unique('date')->implode('date' , "; " )."<br>".
+            $IOPDiag_f[] = '<span style="font-family: arial, helvetica, sans-serif; font-size: 10pt;" Treatment period:' .$value->unique('date')->implode('date' , "; " )."<br>".
             "Diagnosis: " . $value->unique('diagnosis')->implode('diagnosis' , ", " ) ." <br>".
-            'Place of treatment: '.$value[0]['place']." <br>";
+            'Place of treatment: '.$value[0]['place']." <br></span>";
         }
     }
     $IOPDiag = implode('<br>',  $IOPDiag_f);

@@ -22,13 +22,13 @@ class Term extends BaseModel
 
     public function getFullTextTermAttribute(){
 
-        $q = '<ul><li><span style="font-size: 11pt; font-family: arial, helvetica, sans-serif;">'  . preg_replace('/(<p>)/', "", $this->description.'</span>' ). '</li></ul>';
+        $q = '<ul><li><span style="font-size: 10pt; font-family: arial, helvetica, sans-serif;">'  . preg_replace('/(<p>)/', "", $this->description.'</span>' ). '</li></ul>';
         return $q;
     }
 
     public function getFullTextTermENAttribute(){
 
-        $q = '<ul><li><span style="font-size: 11pt; font-family: arial, helvetica, sans-serif;">' . preg_replace('/(<p>)/', "", $this->description_en.'</span>' ) . '</li></ul>';
+        $q = '<ul><li><span style="font-size: 10pt; font-family: arial, helvetica, sans-serif;">' . preg_replace('/(<p>)/', "", $this->description_en.'</span>' ) . '</li></ul>';
 
         return $q;
     }
