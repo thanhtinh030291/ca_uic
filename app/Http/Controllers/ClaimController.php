@@ -1560,21 +1560,21 @@ class ClaimController extends Controller
         $htm_infoReject = "";
         $htm_infoReject_en = "";
         if ($deniedAmt != 0 || $CSRRemark) {
-            $htm_infoReject = "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>
+            $htm_infoReject = "<p style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>
             Số tiền không được bồi thường:  <strong style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>".formatPrice($deniedAmt). " VNĐ</strong>" .
-            "</span></p>" . 
-            "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Diễn giải:</span></p>" .
-            implode('', $CSRRemark) .
-            "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Quý khách vui lòng tham khảo (các) điều khoản sau:</span></p>" .
-            implode('', $TermRemark);
+            "</span><br>" . 
+            "<span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Diễn giải:</span><br>" .
+            implode('<br>', $CSRRemark) .
+            "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Quý khách vui lòng tham khảo (các) điều khoản sau:</span></p><ul>" .
+            implode('', $TermRemark)."</ul></p>";
 
-            $htm_infoReject_en = "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>
+            $htm_infoReject_en = "<p style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>
             Rejected amount:  <strong style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>".formatPrice($deniedAmt). " VND</strong>" .
             "</span></p>" . 
             "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Description:</span></p>" .
-            implode('', $CSRRemark_en) .
-            "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Please kindly refer to the below condition(s):</span></p>" .
-            implode('', $TermRemark_en);
+            implode('<br>', $CSRRemark_en) .
+            "<p><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Please kindly refer to the below condition(s):</span></p><ul>" .
+            implode('', $TermRemark)."</ul></p>";
         }
         $content = str_replace('[[$infoReject]]', $htm_infoReject , $content);
         $content = str_replace('[[$infoReject_en]]', $htm_infoReject_en , $content);
@@ -2793,6 +2793,7 @@ class ClaimController extends Controller
     public function waiting_time($HBS_CL_CLAIM , $lang = null)
     {
         $PD_PLAN_OVERRIDE_DIAGNOSIS = $HBS_CL_CLAIM->HBS_CL_LINE[0]->MR_POLICY_PLAN->PD_PLAN->PD_PLAN_OVERRIDE_DIAGNOSIS;
+        $list_bentype = DB::connection('oracle')->table('sy_sys_code_lang')->where('scma_oid','like','%BENEFIT_TYPE_%')->get();
         $lang_waiting_time = $lang == 'en' ? 'Waiting Time' : 'Thời Gian Chờ';
         $diag_desc = $lang == 'en' ? 'diag_desc' : 'diag_desc_vn';
         $html = '<table style=" border: 1px solid #1e91e3; border-collapse: collapse;width: 100%">
@@ -2803,17 +2804,19 @@ class ClaimController extends Controller
                         </tr>
                     </thead>
                     <tbody>';
-        
-        foreach ($PD_PLAN_OVERRIDE_DIAGNOSIS as $key => $value) {
+        foreach ($PD_PLAN_OVERRIDE_DIAGNOSIS->groupBy('diag_oid_override') as $key => $value) {
             $total = "";
-            $total .= $value->wait_year ? trim($value->wait_year) . " năm " : "";
-            $total .= $value->wait_month ? trim($value->wait_month) . " tháng ": "";
-            $total .= $value->wait_day ? trim($value->wait_day) . " ngày ": "";
-           
+            $total .= data_get($value,"0.wait_year") ? trim(data_get($value,"0.wait_year")) . " năm " : "";
+            $total .=  data_get($value,"0.wait_month") ? trim(data_get($value,"0.wait_month")) . " tháng ": "";
+            $total .= data_get($value,"0.wait_day") ? trim(data_get($value,"0.wait_day")) . " ngày ": "";
+            $desc_type = [];
+            foreach ($value as $key2 => $value2) {
+                $desc_type[] = data_get($list_bentype->where("scma_oid", $value2->scma_oid_benefit_type)->first() , "code_desc_vn");
+            }
             
-            $diag_desc_vn = explode("(",data_get($value->RT_DIAGNOSIS, $diag_desc, "Null"))[0];
+            $diag_desc_vn = explode("(",data_get($value[0]->RT_DIAGNOSIS, $diag_desc, "Null"))[0];
             $html .=    '<tr>
-                            <td style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 10pt; text-align: left; padding-left: 40px;">'.$diag_desc_vn.'</td>
+                            <td style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 10pt; text-align: left; padding-left: 40px;">'.$diag_desc_vn."- ".implode(",",$desc_type).'</td>
                             <td style="border: 1px solid #1e91e3 ; font-family: arial, helvetica, sans-serif ; font-size: 10pt; text-align: left; padding-left: 40px;">'. $total .'</td>
                         </tr>';
         }

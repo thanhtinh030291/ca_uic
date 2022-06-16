@@ -377,7 +377,8 @@ $totalAmount = 0;
                                         'data-claim_id' => $data->id,
                                         'data-letter_template_id' => $item->letter_template->id,
                                         'data-status' => $item->status,
-                                        'data-id' => $item->id
+                                        'data-id' => $item->id,
+                                        'data-letter_name' => $item->letter_template->name
                                         ]) 
                                     !!}
                                     {!! Form::button('<i class="fa fa-print"></i>', ['type' => 'submit', 'class' => 'btn btn-info btn-xs']) !!}
@@ -538,6 +539,7 @@ $totalAmount = 0;
         var claim_id =  e.dataset.claim_id;
         var letter_template_id = e.dataset.letter_template_id;
         var status = e.dataset.status;
+        var letter_name = e.dataset.letter_name;
         var id = e.dataset.id;
         $('.status_letter').val(status).change();
         $('.export_letter_id').val(id);
@@ -552,6 +554,11 @@ $totalAmount = 0;
         })
         .done(function(res) {
             tinymce.get("preview_letter").setContent(res);
+            if(letter_name == "Thư thông báo bồi thường(vi)"){
+                tinyMCE.get('preview_letter').setMode('readonly');
+            }else{
+                tinyMCE.get('preview_letter').setMode('design');
+            }
             //CKEDITOR.instances['preview_letter'].setData(res);
             $(".loader").fadeOut("slow");
         })

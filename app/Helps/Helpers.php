@@ -565,7 +565,7 @@ function CSRRemark_TermRemark($claim ,$lang = null){
     $itemOfClaim = $claim->item_of_claim->groupBy('reason_reject_id');
     $templateHaveMeger = [];
     foreach ($itemOfClaim as $key => $value) {
-        $template = $lang == 'en' ?  $value[0]->reason_reject->template_en : $value[0]->reason_reject->template;
+        $template = $lang == 'en' ?  "- ".$value[0]->reason_reject->template_en : "- ".$value[0]->reason_reject->template;
         if(isset($value[0]->reason_reject->term->fullTextTerm)){
             $TermRemark[] = $lang == 'en' ? $value[0]->reason_reject->term->fullTextTermEn : $value[0]->reason_reject->term->fullTextTerm;
         }
@@ -576,7 +576,7 @@ function CSRRemark_TermRemark($claim ,$lang = null){
                 foreach ( $arrKeyRep as $key2 => $value2) {
                     $template_new = str_replace($value2, '$parameter', $template_new);
                 };
-                $CSRRemark[] = Str::replaceArray('$parameter', $item->parameters, $template_new);
+                $CSRRemark[] =  str_replace("  "," ",trim(Str::replaceArray('$parameter', $item->parameters, $template_new)));
             }
         }else{
             preg_match_all('/\[Begin\].*\[End\]/U', $template, $matches);
@@ -595,11 +595,10 @@ function CSRRemark_TermRemark($claim ,$lang = null){
             foreach ($arrMatche as $key => $value) {
                 $arr_str[] = preg_replace('/\[Begin\]|\[End\]/', '', implode(", ", $value));
             }
-            $CSRRemark[] = Str::replaceArray('$arrParameter', $arr_str, $template_new);
+            $CSRRemark[] =  str_replace("  "," ",trim(Str::replaceArray('$arrParameter', $arr_str, $template_new)));
         }
     }
     $TermRemark = collect($TermRemark)->unique()->toArray();
-    
     return [ 'CSRRemark' => $CSRRemark , 'TermRemark' => $TermRemark , 'itemsReject' => $itemsReject , 'sumAmountReject' => $sumAmountReject];
     
 }

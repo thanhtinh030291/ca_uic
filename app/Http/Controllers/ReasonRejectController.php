@@ -132,4 +132,22 @@ class ReasonRejectController extends Controller
         $data->delete();
         return redirect('/admin/reason_reject')->with('status', __('message.reason_inject_delete_success'));
     }
+
+    public function strips(Request $request)
+    {
+        $data = ReasonReject::all();
+        foreach ($data as $key => $value) {
+            $value->template = trim(strip_tags(html_entity_decode($value->template)));
+            $value->template_en = trim(strip_tags(html_entity_decode($value->template_en)));
+            $value->save();
+        }
+        $data2 = Term::all();
+        foreach ($data2 as $key => $value) {
+            $value->description = trim(strip_tags(html_entity_decode($value->description)));
+            $value->description_en = trim(strip_tags(html_entity_decode($value->description_en)));
+            $value->save();
+        }
+        
+        return redirect('/admin/reason_reject')->with('status', __('message.reason_inject_update_success'));
+    }
 }
