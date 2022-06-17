@@ -1289,6 +1289,7 @@ class ClaimController extends Controller
             $data['namefile'] = $namefile;
             $data['content'] = $export_letter->wait['data'];
         }else{
+            
             $data = $this->letter($request->letter_template_id , $request->claim_id, $request->export_letter_id);
         }
         

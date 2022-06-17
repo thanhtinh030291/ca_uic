@@ -566,10 +566,12 @@ function CSRRemark_TermRemark($claim ,$lang = null){
     $templateHaveMeger = [];
     foreach ($itemOfClaim as $key => $value) {
         $template = $lang == 'en' ?  "- ".$value[0]->reason_reject->template_en : "- ".$value[0]->reason_reject->template;
-        if(isset($value[0]->reason_reject->term->fullTextTerm)){
-            $TermRemark[] = $lang == 'en' ? $value[0]->reason_reject->term->fullTextTermEn : $value[0]->reason_reject->term->fullTextTerm;
-        }
         
+        if(isset($value[0]->reason_reject->term)){
+            foreach ($value[0]->reason_reject->term as $key_t => $value_t) {
+                $TermRemark[] = $lang == 'en' ? $value_t->fullTextTermEn : $value_t->fullTextTerm;
+            }
+        }
         if (!preg_match('/\[Begin\].*\[End\]/U', $template)){
             foreach ($value as $keyItem => $item) {
                 $template_new = $template;
@@ -599,7 +601,7 @@ function CSRRemark_TermRemark($claim ,$lang = null){
             $CSRRemark[] =  str_replace("  "," ",trim(Str::replaceArray('$arrParameter', $arr_str, $template_new)));
         }
     }
-
+    
     $TermRemark = collect($TermRemark)->unique()->toArray();
     return [ 'CSRRemark' => $CSRRemark , 'TermRemark' => $TermRemark , 'itemsReject' => $itemsReject , 'sumAmountReject' => $sumAmountReject];
     

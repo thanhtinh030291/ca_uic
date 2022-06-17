@@ -63,7 +63,12 @@ class ReasonRejectController extends Controller
     public function store(reasonInjectRequest $request)
     {
         $userId = Auth::User()->id;
-        $data = $request->except([]);
+        $data = $request->except(['term_id']);
+        if($request->term_id){
+            $data['term_id'] = implode(",",$request->term_id);
+        }else{
+            $data['term_id'] = null;
+        }
         $data['created_user'] = $userId;
         $data['updated_user'] = $userId;
 
@@ -109,8 +114,12 @@ class ReasonRejectController extends Controller
      */
     public function update(reasonInjectRequest $request, ReasonReject $reasonReject)
     {
-        $data = $request->except([]);
-        
+        $data = $request->except(['term_id']);
+        if($request->term_id){
+            $data['term_id'] = implode(",",$request->term_id);
+        }else{
+            $data['term_id'] = null;
+        }
         $userId = Auth::User()->id;
         $data['updated_user'] = $userId;
         //dd($data);

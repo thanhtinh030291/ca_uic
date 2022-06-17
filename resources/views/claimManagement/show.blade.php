@@ -573,7 +573,7 @@ $totalAmount = 0;
         var note = e.dataset.note;
         var list_status = e.dataset.liststatus;
         var letter_name = e.dataset.letter_name;
-        @hasanyrole('Admin')
+        @hasanyrole('Claim Independent|Admin')
             if(letter_name == "Thư thông báo bồi thường(vi)"){
                 tinyMCE.get('note_letter').setMode('readonly');
             }else{
