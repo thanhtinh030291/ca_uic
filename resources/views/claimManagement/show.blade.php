@@ -342,7 +342,8 @@ $totalAmount = 0;
                                         'data-note' => $item->wait['data'],
                                         'data-status' => $item->created_user == $user->id ? config('constants.statusExport.edit') : config('constants.statusExport.note_save'),
                                         'data-id' => $item->id,
-                                        'data-liststatus' => json_encode($item->list_status)
+                                        'data-liststatus' => json_encode($item->list_status),
+                                        'data-letter_name' => $item->letter_template->name
                                         ]) !!}
                                         <br>
                                         {{$item->wait['created_at']}}
@@ -571,6 +572,14 @@ $totalAmount = 0;
         var id = e.dataset.id;
         var note = e.dataset.note;
         var list_status = e.dataset.liststatus;
+        var letter_name = e.dataset.letter_name;
+        @hasanyrole('Claim Independent|Admin')
+            if(letter_name == "Thư thông báo bồi thường(vi)"){
+                tinyMCE.get('note_letter').setMode('readonly');
+            }else{
+                tinyMCE.get('note_letter').setMode('design');
+            }
+        @endhasanyrole
         if(status == {{ config('constants.statusExport.edit')}}){
             $('#button_save').show();
         }else{
