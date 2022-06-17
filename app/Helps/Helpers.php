@@ -587,17 +587,19 @@ function CSRRemark_TermRemark($claim ,$lang = null){
                     foreach ( $arrKeyRep as $key2 => $value2) {
                         $valueMatche = str_replace( $value2, '$parameter', $valueMatche);
                     };
-                    $arrMatche[$keyMatche][] =  Str::replaceArray('$parameter', preg_replace('/(,)/', '.', $item->parameters), $valueMatche);
+                    $arrMatche[$keyMatche][] =  Str::replaceArray('$parameter',$item->parameters, $valueMatche);
                 }
             }
             // array to string 
             $arr_str = [];
             foreach ($arrMatche as $key => $value) {
+                
                 $arr_str[] = preg_replace('/\[Begin\]|\[End\]/', '', implode(", ", $value));
             }
             $CSRRemark[] =  str_replace("  "," ",trim(Str::replaceArray('$arrParameter', $arr_str, $template_new)));
         }
     }
+
     $TermRemark = collect($TermRemark)->unique()->toArray();
     return [ 'CSRRemark' => $CSRRemark , 'TermRemark' => $TermRemark , 'itemsReject' => $itemsReject , 'sumAmountReject' => $sumAmountReject];
     
