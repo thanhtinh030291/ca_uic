@@ -409,13 +409,16 @@ class ClaimController extends Controller
         $selected_diagnosis = $claim->hospital_request ? collect($claim->hospital_request->diagnosis)->pluck('id') : null;
         if($claim_type == "P"){
             $fromEmail = $claim->inbox_email ? $claim->inbox_email->from . "," . implode(",", $claim->inbox_email->to) : "";
+            $bcc = "";
         }else{
             //get email send custommer
             $PocyManagement = \App\PocyManagement::where('pocy_ref_no',$pocy_no)->first();
             if($PocyManagement != null){
-                $fromEmail = $email .",".$PocyManagement->email.",$hr_email";
+                $fromEmail = $email ;
+                $bcc = $PocyManagement->email.",$hr_email";
             }else {
-                $fromEmail = $email .",cskh.uic@pacificcross.com.vn".",$hr_email";
+                $fromEmail = $email ;
+                $bcc = "cskh.uic@pacificcross.com.vn".",$hr_email";
             }
             
         }
@@ -424,7 +427,7 @@ class ClaimController extends Controller
         $compact = compact(['data', 'dataImage', 'items', 'admin_list', 'listReasonReject', 
         'listLetterTemplate' , 'list_status_ad', 'user', 'payment_history', 'approve_amt','tranfer_amt','present_amt',
         'payment_method','pocy_no','memb_no', 'member_name', 'balance_cps', 'can_pay_rq',
-        'CsrFile','manager_gop_accept_pay','hospital_request', 'list_diagnosis', 'selected_diagnosis', 'fromEmail','reject_code','IS_FREEZED','adminFee','inv_nos','btn_notication','renderMessageInvoice'
+        'CsrFile','manager_gop_accept_pay','hospital_request','bcc', 'list_diagnosis', 'selected_diagnosis', 'fromEmail','reject_code','IS_FREEZED','adminFee','inv_nos','btn_notication','renderMessageInvoice'
         ]);
         if ($claim_type == 'P'){
             return view('claimGOPManagement.show', $compact);
@@ -2472,8 +2475,8 @@ class ClaimController extends Controller
         $data['email_reply'] = $user->email;
         $email_to = explode(",", $request->email_to);
         $email_to = array_diff( $email_to, ['admin@pacificcross.com.vn'] );
-        
-        sendEmailProvider($user, $email_to, 'provider', $subject, $data,$template,'uicclaims@pacificcross.com.vn');
+        $bcc = explode(",", $request->bcc);
+        sendEmailProvider($user, $email_to, 'provider', $subject, $data,$template,'uicclaims@pacificcross.com.vn',$bcc);
         return redirect('/admin/claim/'.$claim_id)->with('status', 'Đã gửi thư cho Custommer thành công');
     }
 
