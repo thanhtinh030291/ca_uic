@@ -2444,7 +2444,11 @@ class ClaimController extends Controller
         $HBS_CL_CLAIM = HBS_CL_CLAIM::IOPDiag()->findOrFail($claim->code_claim);
         $diag_code = $HBS_CL_CLAIM->HBS_CL_LINE->pluck('diag_oid')->unique()->toArray();
         $namefile = Str::slug("{$export_letter->letter_template->name}_{$HBS_CL_CLAIM->memberNameCap}", '-');
-        $template = 'templateEmail.sendCustomer';
+        if(preg_match('/(EN)/', $export_letter->letter_template->name , $matchess)){
+            $template = 'templateEmail.sendCustomer_en';
+        }else{
+            $template = 'templateEmail.sendCustomer';
+        }
         $subject = '[PCV] Thông Báo Đến Khách Hàng: '.$HBS_CL_CLAIM->MemberNameCap;
         $mpdf = new \Mpdf\Mpdf(['tempDir' => base_path('resources/fonts/'), 'margin_top' => 35]);
         $mpdf->WriteHTML('
