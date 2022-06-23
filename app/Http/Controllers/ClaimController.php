@@ -1554,7 +1554,7 @@ class ClaimController extends Controller
         $content = str_replace('[[$SEX]]', str_replace('SEX_', "",$HBS_CL_CLAIM->member->scma_oid_sex) , $content);
         $content = str_replace('[[$PoNo]]', $police->pocy_no, $content);
         $content = str_replace('[[$EffDate]]', Carbon::parse($police->eff_date)->format('d/m/Y'), $content);
-        $content = str_replace('[[$now]]', datepayment(), $content);
+        $content = str_replace('[[$now]]', Carbon::now()->format('d/m/Y'), $content);
         $content = str_replace('[[$waiting_time]]', $this->waiting_time($HBS_CL_CLAIM) , $content);
         $content = str_replace('[[$waiting_time_en]]', $this->waiting_time($HBS_CL_CLAIM,'en') , $content);
         $content = str_replace('[[$mem_planEffDate]]', Carbon::parse($MR_MEMBER_PLAN->eff_date)->format('d/m/Y') , $content);
