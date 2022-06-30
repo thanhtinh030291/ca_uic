@@ -1565,7 +1565,7 @@ class ClaimController extends Controller
         $htm_infoReject_en = "";
         if ($deniedAmt != 0 || $CSRRemark) {
             $htm_infoReject = "<p style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'><span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>
-            Số tiền không được bồi thường:  <strong style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>".formatPrice($deniedAmt). " VNĐ</strong>" .
+            Số tiền không được bồi thường:  <strong style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>".formatPrice($deniedAmt). " đồng</strong>" .
             "</span><br>" . 
             "<span style='font-family: arial, helvetica, sans-serif; font-size: 10pt;'>Diễn giải:</span><br>" .
             implode('<br>', $CSRRemark) ;
