@@ -395,14 +395,14 @@ class ClaimController extends Controller
         $count_ap = $export_letter->where('apv_amt',$approve_amt)->where('approve',"!=",null)->count();
         $ready_to_pay_id = \App\MANTIS_CUSTOM_FIELD::where('name','Pay Claim')->first()->id;
         $client_approved_id = \App\MANTIS_CUSTOM_FIELD::where('name','Client Approved')->first()->id;
-        $ready_to_pay = \App\MANTIS_CUSTOM_FIELD_STRING::where('bug_id',$claim->barcode)->where('field_id',$ready_to_pay_id)->where('value','Yes')->first();
-        $ready_to_pay2 = \App\MANTIS_CUSTOM_FIELD_STRING::where('bug_id',$claim->barcode)->where('field_id',$client_approved_id)->where(function ($query) {
-            $query->where('value','Yes')
-            ->orWhere('value', 'Client Timeout');
-        })->first();
-        if($count_ap > 0 && $ready_to_pay != null && $ready_to_pay2){
+        //$ready_to_pay = \App\MANTIS_CUSTOM_FIELD_STRING::where('bug_id',$claim->barcode)->where('field_id',$ready_to_pay_id)->where('value','Yes')->first();
+        //$ready_to_pay2 = \App\MANTIS_CUSTOM_FIELD_STRING::where('bug_id',$claim->barcode)->where('field_id',$client_approved_id)->where(function ($query) {
+        //     $query->where('value','Yes')
+        //     ->orWhere('value', 'Client Timeout');
+        // })->first();
+        //if($count_ap > 0 && $ready_to_pay != null && $ready_to_pay2){
             $can_pay_rq = true;
-        }
+        //}
         $manager_gop_accept_pay = 'error';
         $hospital_request = $claim->hospital_request;
         $list_diagnosis = $claim->hospital_request ? collect($claim->hospital_request->diagnosis)->pluck('text', 'id') : [];
